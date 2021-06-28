@@ -3,10 +3,12 @@ package com.ectario.objects;
 
 public abstract class Tile {
 
-    protected int place;
+    protected int place; //64 different place (0 to 63), 16 first are the white side
+    protected Piece piece = null;
 
-    public Tile(int place){
-        this.place = place;
+
+    public Tile(int pPlace){
+        this.place = pPlace;
     }
 
     public abstract boolean isEmpty();
@@ -20,8 +22,8 @@ public abstract class Tile {
 
     public static class EmptyTile extends Tile {
 
-        public EmptyTile(int place) {
-            super(place);
+        public EmptyTile(int pPlace) {
+            super(pPlace);
         }
 
         @Override
@@ -37,8 +39,9 @@ public abstract class Tile {
 
     public static class OccupiedTile extends Tile {
 
-        public OccupiedTile(int place) {
-            super(place);
+        public OccupiedTile(int pPlace, Piece pPiece) {
+            super(pPlace);
+            this.piece = pPiece;
         }
 
         @Override
@@ -48,7 +51,7 @@ public abstract class Tile {
 
         @Override
         public Piece getPiece() {
-            return null;
+            return this.piece;
         }
     }
 

@@ -1,8 +1,11 @@
 package com.ectario.main;
 
+import com.ectario.objects.Board;
+
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+        Board board = new Board();
+        board.printBoard();
     }
 }
