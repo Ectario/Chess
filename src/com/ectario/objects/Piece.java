@@ -1,34 +1,14 @@
 package com.ectario.objects;
 
-enum PieceType {
-    KING(0),
-    QUEEN(9),
-    ROOK(5),
-    BISHOP(3),
-    KNIGHT(3),
-    PAWN(1);
-
-    public final int value;
-
-    PieceType(int value) {
-        this.value = value;
-    }
-}
-
-enum Color {
-    WHITE,
-    BLACK
-}
-
-public abstract class  Piece {
+public class  Piece {
 
     protected Color color;
     protected PieceType pieceType;
     protected Move move;
 
-    Piece(PieceType pPieceType, Color pColor){
-        this.color = pColor;
-        this.pieceType = pPieceType;
+    public Piece(PieceType pieceType, Color color){
+        this.color = color;
+        this.pieceType = pieceType;
     }
 
     @Override

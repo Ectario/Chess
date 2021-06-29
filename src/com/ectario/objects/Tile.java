@@ -7,8 +7,8 @@ public abstract class Tile {
     protected Piece piece = null;
 
 
-    public Tile(int pPlace){
-        this.place = pPlace;
+    public Tile(int place){
+        this.place = place;
     }
 
     public abstract boolean isEmpty();
@@ -39,9 +39,9 @@ public abstract class Tile {
 
     public static class OccupiedTile extends Tile {
 
-        public OccupiedTile(int pPlace, Piece pPiece) {
-            super(pPlace);
-            this.piece = pPiece;
+        public OccupiedTile(int place, Piece piece) {
+            super(place);
+            this.piece = piece;
         }
 
         @Override
@@ -52,6 +52,10 @@ public abstract class Tile {
         @Override
         public Piece getPiece() {
             return this.piece;
+        }
+
+        public void setPiece(Piece piece){
+            this.piece = piece;
         }
     }
 

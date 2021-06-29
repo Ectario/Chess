@@ -1,8 +1,8 @@
 package com.ectario.objects;
 
-import java.sql.Array;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Board
@@ -18,7 +18,7 @@ public class Board
         for(int i = 0; i < height; i++){
             ArrayList<Tile> line = new ArrayList<>();
             for(int j = 0; j < width; j++){
-                line.add(new Tile.EmptyTile(i+j));
+                line.add(new Tile.EmptyTile((i*this.width) +j));
             }
             this.matrix.add(line);
         }
@@ -31,7 +31,7 @@ public class Board
         for(int i = 0; i < height; i++){
             ArrayList<Tile> line = new ArrayList<>();
             for(int j = 0; j < width; j++){
-                line.add(new Tile.EmptyTile(i+j));
+                line.add(new Tile.EmptyTile((i*this.width) +j));
             }
             this.matrix.add(line);
         }
@@ -59,14 +59,22 @@ public class Board
     public void clearBoard(){
         for(int i = 0; i < height; i++){
             for(int j = 0; j < width; j++){
-                this.matrix.get(i).set(j, new Tile.EmptyTile(i+j));
+                matrix.get(i).set(j, new Tile.EmptyTile((i*this.width) +j));
             }
         }
     }
 
+    public void changeTile(Tile tile, List<Integer> tuplePos){
+        matrix.get(tuplePos.get(1)).set(tuplePos.get(0), tile);
+    }
+
     public List<Integer> intPlaceToTuplePos(int place){
-        //TODO : Translate int to pos
-        List<Integer> tuple = List.of(1,1);
-        return tuple;
+        int x = (place+1) % width;
+        int y = (int) Math.floor(place/width);
+        return List.of(x, y);
+    }
+
+    public int tuplePosToIntPlace(@NotNull List<Integer> tuplePos){
+        return tuplePos.get(0) + (tuplePos.get(1) * width);
     }
 }

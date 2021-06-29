@@ -1,7 +1,7 @@
 package com.ectario.objects;
 
 public abstract class Move {
-    Move(PieceType pPieceType){
+    Move(PieceType pieceType){
 
     }
 }
