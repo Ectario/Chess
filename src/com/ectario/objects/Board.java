@@ -48,7 +48,7 @@ public class Board
                 if(this.matrix.get(i).get(j).getPiece() != null){
                     System.out.print("|" + this.matrix.get(i).get(j).getPiece().toStringAbbreviation());
                 } else {
-                    System.out.print("|" + "_");
+                    System.out.print("|" + "__");
                 }
             }
             System.out.print("|");
@@ -64,17 +64,36 @@ public class Board
         }
     }
 
-    public void changeTile(Tile tile, List<Integer> tuplePos){
+    public void changeTile(Tile tile, List<Integer> tuplePos) throws TilePlacementException {
+        if(tuplePos.get(0) > width || tuplePos.get(0) < 0 || tuplePos.get(1) > height || tuplePos.get(1) < 0)
+        {
+            throw new TilePlacementException("Error in changeTile in a board : the new position isn't on the board");
+        }
         matrix.get(tuplePos.get(1)).set(tuplePos.get(0), tile);
     }
 
     public List<Integer> intPlaceToTuplePos(int place){
         int x = (place+1) % width;
-        int y = (int) Math.floor(place/width);
+        int y = (int) Math.floor((float) place/width);
         return List.of(x, y);
     }
 
     public int tuplePosToIntPlace(@NotNull List<Integer> tuplePos){
         return tuplePos.get(0) + (tuplePos.get(1) * width);
     }
+
+    public int getWidth(){
+        return width;
+    }
+
+    public int getHeight(){
+        return height;
+    }
+
+    private static class TilePlacementException extends Exception {
+        TilePlacementException(String str){
+            super(str);
+        }
+    }
+
 }

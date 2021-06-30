@@ -1,14 +1,16 @@
 package com.ectario.objects;
 
-public class  Piece {
+public abstract class  Piece {
 
     protected Color color;
     protected PieceType pieceType;
     protected Move move;
+    protected Board board;
 
-    public Piece(PieceType pieceType, Color color){
+    public Piece(PieceType pieceType, Color color, Board board){
         this.color = color;
         this.pieceType = pieceType;
+        this.board = board;
     }
 
     @Override
@@ -32,4 +34,5 @@ public class  Piece {
     public Color getColor() {
         return color;
     }
+
 }
