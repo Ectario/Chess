@@ -1,5 +1,7 @@
 package com.ectario.objects;
 
+import java.util.List;
+
 public abstract class  Piece {
 
     protected Color color;
@@ -22,6 +24,8 @@ public abstract class  Piece {
         //Return the first letter of the name of the piece + First letter of the color
         return this.color.name().charAt(0) + String.valueOf(pieceType.name().charAt(0));
     }
+
+    public abstract void movePiece(List<Integer> currentPosition, List<Integer> position);
 
     public Move getMove() {
         return move;
