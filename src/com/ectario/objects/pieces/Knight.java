@@ -7,7 +7,7 @@ import java.util.List;
 public class Knight extends Piece {
     public Knight(Color color, Board board) {
         super(PieceType.KNIGHT, color, board);
-        this.move = new Move(List.of(List.of(1,3)), board) {
+        this.move = new Move(List.of(List.of(1,0), List.of(1,1), List.of(-1,0), List.of(1,-1), List.of(-1,1), List.of(-1,-1), List.of(0,1), List.of(0,-1)), board) {
             @Override
             public void update(List<Integer> currentPosition) {
                 super.update(currentPosition);

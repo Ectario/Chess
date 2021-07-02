@@ -24,5 +24,7 @@ public class Main {
         tile.getPiece().movePiece(board.intPlaceToTuplePos(tile.getPlace()), tile.getPiece().getMove().getPossibleTargets().get(0));
 
         board.printBoard();
+
+        System.out.println(tile.getPiece().getMove().getPossibleTargets());
     }
 }
