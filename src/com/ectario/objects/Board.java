@@ -54,6 +54,7 @@ public class Board
             System.out.print("|");
 
         }
+        System.out.println();
     }
 
     public void clearBoard(){
@@ -64,7 +65,8 @@ public class Board
         }
     }
 
-    public void setTile(Tile tile, List<Integer> position) throws TilePlacementException {
+    public void setTile(Tile tile) throws TilePlacementException {
+        List<Integer> position = intPlaceToTuplePos(tile.getPlace());
         if(position.get(0) > width || position.get(0) < 0 || position.get(1) > height || position.get(1) < 0)
         {
             throw new TilePlacementException("Error in changeTile in a board : the new position isn't on the board");
@@ -73,7 +75,7 @@ public class Board
     }
 
     public List<Integer> intPlaceToTuplePos(int place){
-        int x = (place+1) % width;
+        int x = (place) % width;
         int y = (int) Math.floor((float) place/width);
         return List.of(x, y);
     }
@@ -96,7 +98,7 @@ public class Board
         return height;
     }
 
-    private static class TilePlacementException extends Exception {
+    public static class TilePlacementException extends Exception {
         TilePlacementException(String str){
             super(str);
         }

@@ -14,6 +14,10 @@ public abstract class Tile {
     public abstract boolean isEmpty();
     public abstract Piece getPiece();
 
+    public int getPlace(){
+        return place;
+    }
+
     @Override
     public String toString() {
         // Return the place and the piece
