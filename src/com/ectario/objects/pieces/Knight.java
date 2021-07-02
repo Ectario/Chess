@@ -8,7 +8,7 @@ public class Knight extends Piece {
 
     public Knight(Color color, Board board){
         super(PieceType.KNIGHT, color, board);
-        List<List<Integer>> movement = List.of(
+        List<List<Integer>> movements = List.of(
                 List.of(2,1),
                 List.of(-2,1),
                 List.of(2,-1),
@@ -18,6 +18,11 @@ public class Knight extends Piece {
                 List.of(-2,-1),
                 List.of(1,-2)
         );
-        this.move = new Move(movement, board);
+
+        if(color.name().equals("BLACK")){
+            movements = this.whiteSideMovement(movements);
+        }
+
+        this.move = new Move(movements, board);
     }
 }

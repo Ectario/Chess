@@ -11,8 +11,8 @@ public class Main {
     private static Board board = new Board();
 
     public static void main(String[] args) {
-        Piece knight = new Knight(Color.WHITE, board);
-        Tile tile = new Tile.OccupiedTile(board.tuplePosToIntPlace(List.of(0,0)), knight);
+        Piece knight = new Pawn(Color.BLACK, board);
+        Tile tile = new Tile.OccupiedTile(board.tuplePosToIntPlace(List.of(5,5)), knight);
 
         try {
             board.setTile(tile);

@@ -7,7 +7,7 @@ import java.util.List;
 public class King extends Piece {
     public King(Color color, Board board) {
         super(PieceType.KING, color, board);
-        List<List<Integer>> movement = List.of(
+        List<List<Integer>> movements = List.of(
                 List.of(1,0),
                 List.of(1,1),
                 List.of(-1,0),
@@ -17,7 +17,12 @@ public class King extends Piece {
                 List.of(0,1),
                 List.of(0,-1)
         );
-        this.move = new Move(movement, board){
+
+        if(color.name().equals("BLACK")){
+            movements = this.whiteSideMovement(movements);
+        }
+
+        this.move = new Move(movements, board){
             @Override
             public void update(List<Integer> currentPosition) {
                 super.update(currentPosition);
