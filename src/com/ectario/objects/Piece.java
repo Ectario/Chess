@@ -2,7 +2,7 @@ package com.ectario.objects;
 
 import java.util.List;
 
-public abstract class  Piece {
+public class  Piece {
 
     protected Color color;
     protected PieceType pieceType;
@@ -22,10 +22,29 @@ public abstract class  Piece {
 
     public String toStringAbbreviation(){
         //Return the first letter of the name of the piece + First letter of the color
-        return this.color.name().charAt(0) + String.valueOf(pieceType.name().charAt(0));
+        String namePiece;
+        if(pieceType.name() == "KNIGHT")
+        {
+            namePiece = "N";
+        } else namePiece = String.valueOf(pieceType.name().charAt(0));
+        return String.valueOf(this.color.name().charAt(0) + namePiece);
     }
 
-    public abstract void movePiece(List<Integer> currentPosition, List<Integer> position);
+    public void movePiece(List<Integer> currentPosition, List<Integer> targetedPosition){
+        if(move.isPossible(currentPosition, targetedPosition)){
+            int currentPlace = board.tuplePosToIntPlace(currentPosition);
+            int targetedPlace = board.tuplePosToIntPlace(targetedPosition);
+            // The old tile become an Empty Tile and the target become an Occupied Tile
+            Tile oldTile = new Tile.EmptyTile(currentPlace);
+            Tile targetedTile = new Tile.OccupiedTile(targetedPlace, this);
+            try {
+                board.setTile(oldTile);
+                board.setTile(targetedTile);
+            } catch (Board.TilePlacementException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public Move getMove() {
         return move;

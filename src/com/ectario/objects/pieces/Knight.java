@@ -5,30 +5,19 @@ import com.ectario.objects.*;
 import java.util.List;
 
 public class Knight extends Piece {
-    public Knight(Color color, Board board) {
-        super(PieceType.KNIGHT, color, board);
-        this.move = new Move(List.of(List.of(1,0), List.of(1,1), List.of(-1,0), List.of(1,-1), List.of(-1,1), List.of(-1,-1), List.of(0,1), List.of(0,-1)), board) {
-            @Override
-            public void update(List<Integer> currentPosition) {
-                super.update(currentPosition);
-            }
-        };
-    }
 
-    @Override
-    public void movePiece(List<Integer> currentPosition, List<Integer> targetedPosition){
-        if(move.isPossible(currentPosition, targetedPosition)){
-            int currentPlace = board.tuplePosToIntPlace(currentPosition);
-            int targetedPlace = board.tuplePosToIntPlace(targetedPosition);
-            // The old tile become an Empty Tile and the target become an Occupied Tile
-            Tile oldTile = new Tile.EmptyTile(currentPlace);
-            Tile targetedTile = new Tile.OccupiedTile(targetedPlace, this);
-            try {
-                board.setTile(oldTile);
-                board.setTile(targetedTile);
-            } catch (Board.TilePlacementException e) {
-                e.printStackTrace();
-            }
-        }
+    public Knight(Color color, Board board){
+        super(PieceType.KNIGHT, color, board);
+        List<List<Integer>> movement = List.of(
+                List.of(2,1),
+                List.of(-2,1),
+                List.of(2,-1),
+                List.of(1,2),
+                List.of(-1,2),
+                List.of(-1,-2),
+                List.of(-2,-1),
+                List.of(1,-2)
+        );
+        this.move = new Move(movement, board);
     }
 }

@@ -1,9 +1,11 @@
 package com.ectario.main;
 
+import com.ectario.tools.*;
 import com.ectario.objects.*;
-import com.ectario.objects.pieces.Knight;
+import com.ectario.objects.pieces.*;
 
 import java.util.List;
+
 
 public class Main {
     private static Board board = new Board();
@@ -21,10 +23,11 @@ public class Main {
         board.printBoard();
 
         tile.getPiece().getMove().update(board.intPlaceToTuplePos(tile.getPlace()));
-        tile.getPiece().movePiece(board.intPlaceToTuplePos(tile.getPlace()), tile.getPiece().getMove().getPossibleTargets().get(0));
+        tile.getPiece().movePiece(board.intPlaceToTuplePos(tile.getPlace()), tile.getPiece().getMove().getPossibleTargets().get(Tools.randrange(0,
+                tile.getPiece().getMove().getPossibleTargets().size())));
 
         board.printBoard();
 
-        System.out.println(tile.getPiece().getMove().getPossibleTargets());
+
     }
 }

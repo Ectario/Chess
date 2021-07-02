@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 //Abstract Class used to manage if a move is allowed.
-public abstract class Move {
+public class Move {
 
     private ArrayList<List<Integer>> possiblePositions = new ArrayList();
     private Board board;
