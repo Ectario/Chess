@@ -1,35 +1,78 @@
 package com.ectario.objects;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//Abstract Class used to manage if a move is allowed.
+//Class used to manage if a move is allowed.
 public class Move {
 
     private ArrayList<List<Integer>> possiblePositions = new ArrayList();
     private Board board;
     private List<List<Integer>> relativeTargetedPositions;
+    private List<MoveFlag> flags;
 
-    // relativeTargetedPositions is relative to the Piece, example : The piece can move only in the right tile, then the only one targeted position is (1,0) -> 1 in x axe and 0 in y axe
-    public Move(List<List<Integer>> relativeTargetedPositions, Board board) {
+    // relativeTargetedPositions is relative to the Piece,
+    // example : The piece can move only in the right tile, then the only one targeted position is (1,0) -> 1 in x axe and 0 in y axe
+    // If the flags doesn't contains POINT flag -> relativeTargetedPositions must be Empty initialize ArrayList
+    public Move(List<List<Integer>> relativeTargetedPositions, Board board, List<MoveFlag> flags) {
         this.board = board;
+        this.flags = flags;
         this.relativeTargetedPositions = relativeTargetedPositions;
     }
 
     // Update the possible position of the move
     public void update(List<Integer> currentPos){
         possiblePositions.clear();
-        // For each position in relativePosition we add the currentPos -> Can get the Absolut position of each targetedPositions
-        List<List<Integer>> newTargetedPositions = relativeTargetedPositions.stream().map(elt -> addPosition(elt, currentPos)).collect(Collectors.toList());
-        for(List<Integer> pos : newTargetedPositions){
-            if(!(pos.get(0) > board.getWidth() || pos.get(0) < 0 || pos.get(1) > board.getHeight() || pos.get(1) < 0)) //Check if Positions targeted is on the board
-            {
-                possiblePositions.add(pos);
+
+        // If the piece Move has flag POINT then add the possiblePositions
+        if(flags.contains(MoveFlag.POINT)) {
+            // For each position in relativePosition we add the currentPos -> Can get the Absolut position of each targetedPositions
+            List<List<Integer>> newTargetedPositions = relativeTargetedPositions.stream().map(elt -> addPosition(elt, currentPos)).collect(Collectors.toList());
+            for (List<Integer> pos : newTargetedPositions) {
+                if (!(pos.get(0) > board.getWidth() || pos.get(0) < 0 || pos.get(1) > board.getHeight() || pos.get(1) < 0)) //Check if Positions targeted is on the board
+                {
+                    possiblePositions.add(pos);
+                }
             }
         }
 
+        // If the piece Move has LINE then add the possiblePositions
+        if(flags.contains(MoveFlag.LINE)) {
+            List<Integer> direction = List.of(1, -1); // For X axe : 1 is the right and -1 the left
+                                                      // For Y axe : 1 is for the top and -1 the bottom
+
+            ArrayList<Integer> tmpPos;
+            for (int i = 0; i < 2; i++) { // For get(0) : X axe, and get(1) : Y axe
+                for (int dir : direction) {
+                    tmpPos = new ArrayList(currentPos);
+                    // Checking 1 direction until piece or border of board
+                    while (true) {
+                        tmpPos = new ArrayList(tmpPos); // Create the new tmpPos to avoid a pointer problem (until the next initialisation the pointer stay the same)
+                        tmpPos.set(i, tmpPos.get(i) + dir);
+                        try {
+                            Tile tmpTile = board.getTile(board.tuplePosToIntPlace(tmpPos));
+                            System.out.println(board.tuplePosToIntPlace(tmpPos));
+                            Piece pieceAlreadyThere = tmpTile.getPiece();
+                            if (pieceAlreadyThere == null && tmpTile.isEmpty()) {
+                                possiblePositions.add(tmpPos);
+                            } else {
+                                break; // Stopping this direction if a piece is already there
+                            }
+                        } catch (Board.TilePlacementException e) {
+                            System.out.println(tmpPos);
+                            break; // Stopping this direction if the tmpPos isn't on the board
+                        }
+                    }
+                }
+            }
+        }
+
+
     }
+
+
 
     public ArrayList<List<Integer>> getPossibleTargets(){
         return possiblePositions;
@@ -51,9 +94,12 @@ public class Move {
         return List.of(pos.get(0) + pos2.get(0), pos.get(1) + pos2.get(1));
     }
 
-    //TODO : Manage flagging
-    public enum SpecialMoveFlag {
+    // POINT : If the piece can move in precise tile (like the rook)
+    // LINE  : If the piece can move horizontally or vertically
+    // DIAGO : If the piece can move in the diagonals
+    public enum MoveFlag {
         LINE,
-        DIAGONAL
+        DIAGO, // For diagonal
+        POINT
     }
 }

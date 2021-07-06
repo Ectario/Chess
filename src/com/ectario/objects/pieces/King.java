@@ -22,7 +22,7 @@ public class King extends Piece {
             movements = this.whiteSideMovement(movements);
         }
 
-        this.move = new Move(movements, board){
+        this.move = new Move(movements, board, List.of(Move.MoveFlag.POINT)){
             @Override
             public void update(List<Integer> currentPosition) {
                 super.update(currentPosition);

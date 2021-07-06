@@ -84,7 +84,11 @@ public class Board
         return position.get(0) + (position.get(1) * width);
     }
 
-    public Tile getTile(int place){
+    public Tile getTile(int place) throws TilePlacementException {
+        if(place < 0 || place>width*height-1)
+        {
+            throw new TilePlacementException("Error in getTile in a board : the new position isn't on the board");
+        }
         int x = intPlaceToTuplePos(place).get(0);
         int y = intPlaceToTuplePos(place).get(1);
         return matrix.get(x).get(y);

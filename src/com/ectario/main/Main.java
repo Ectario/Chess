@@ -11,7 +11,7 @@ public class Main {
     private static Board board = new Board();
 
     public static void main(String[] args) {
-        Piece knight = new Pawn(Color.BLACK, board);
+        Piece knight = new Rook(Color.BLACK, board);
         Tile tile = new Tile.OccupiedTile(board.tuplePosToIntPlace(List.of(5,5)), knight);
 
         try {
@@ -23,6 +23,7 @@ public class Main {
         board.printBoard();
 
         tile.getPiece().getMove().update(board.intPlaceToTuplePos(tile.getPlace()));
+        System.out.println(tile.getPiece().getMove().getPossibleTargets());
         tile.getPiece().movePiece(board.intPlaceToTuplePos(tile.getPlace()), tile.getPiece().getMove().getPossibleTargets().get(Tools.randrange(0,
                 tile.getPiece().getMove().getPossibleTargets().size())));
 
