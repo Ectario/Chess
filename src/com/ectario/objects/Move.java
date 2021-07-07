@@ -52,8 +52,7 @@ public class Move {
                         tmpPos = new ArrayList(tmpPos); // Create the new tmpPos to avoid a pointer problem (until the next initialisation the pointer stay the same)
                         tmpPos.set(i, tmpPos.get(i) + dir);
                         try {
-                            Tile tmpTile = board.getTile(board.tuplePosToIntPlace(tmpPos));
-                            System.out.println(board.tuplePosToIntPlace(tmpPos));
+                            Tile tmpTile = board.getTile(tmpPos);
                             Piece pieceAlreadyThere = tmpTile.getPiece();
                             if (pieceAlreadyThere == null && tmpTile.isEmpty()) {
                                 possiblePositions.add(tmpPos);
@@ -61,7 +60,6 @@ public class Move {
                                 break; // Stopping this direction if a piece is already there
                             }
                         } catch (Board.TilePlacementException e) {
-                            System.out.println(tmpPos);
                             break; // Stopping this direction if the tmpPos isn't on the board
                         }
                     }

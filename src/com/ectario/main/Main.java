@@ -12,7 +12,7 @@ public class Main {
 
     public static void main(String[] args) {
         Piece knight = new Rook(Color.BLACK, board);
-        Tile tile = new Tile.OccupiedTile(board.tuplePosToIntPlace(List.of(5,5)), knight);
+        Tile tile = new Tile.OccupiedTile(List.of(5,5), knight);
 
         try {
             board.setTile(tile);
@@ -22,13 +22,11 @@ public class Main {
 
         board.printBoard();
 
-        tile.getPiece().getMove().update(board.intPlaceToTuplePos(tile.getPlace()));
-        System.out.println(tile.getPiece().getMove().getPossibleTargets());
-        tile.getPiece().movePiece(board.intPlaceToTuplePos(tile.getPlace()), tile.getPiece().getMove().getPossibleTargets().get(Tools.randrange(0,
+        tile.getPiece().getMove().update(tile.getPosition());
+        tile.getPiece().movePiece(tile.getPosition(), tile.getPiece().getMove().getPossibleTargets().get(Tools.randrange(0,
                 tile.getPiece().getMove().getPossibleTargets().size())));
 
         board.printBoard();
-
 
     }
 }

@@ -13,5 +13,4 @@ public class Rook extends Piece {
         this.move = new Move(movements, board, List.of(Move.MoveFlag.LINE));
     }
 
-
 }

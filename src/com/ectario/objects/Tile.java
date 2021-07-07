@@ -1,21 +1,23 @@
 package com.ectario.objects;
 
 
+import java.util.List;
+
 public abstract class Tile {
 
-    protected int place; //64 different place (0 to 63), 16 first are the white side
+    protected List<Integer> position; // Position on the board (x, y)
     protected Piece piece = null;
 
 
-    public Tile(int place){
-        this.place = place;
+    public Tile(List<Integer> position){
+        this.position = position;
     }
 
     public abstract boolean isEmpty();
     public abstract Piece getPiece();
 
-    public int getPlace(){
-        return place;
+    public List<Integer> getPosition(){
+        return position;
     }
 
     @Override
@@ -26,8 +28,8 @@ public abstract class Tile {
 
     public static class EmptyTile extends Tile {
 
-        public EmptyTile(int pPlace) {
-            super(pPlace);
+        public EmptyTile(List<Integer> position) {
+            super(position);
         }
 
         @Override
@@ -43,8 +45,8 @@ public abstract class Tile {
 
     public static class OccupiedTile extends Tile {
 
-        public OccupiedTile(int place, Piece piece) {
-            super(place);
+        public OccupiedTile(List<Integer> position, Piece piece) {
+            super(position);
             this.piece = piece;
         }
 

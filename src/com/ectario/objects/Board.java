@@ -18,7 +18,7 @@ public class Board
         for(int i = 0; i < height; i++){
             ArrayList<Tile> line = new ArrayList<>();
             for(int j = 0; j < width; j++){
-                line.add(new Tile.EmptyTile((i*this.width) +j));
+                line.add(new Tile.EmptyTile(intPlaceToTuplePos( i*this.width + j)));
             }
             this.matrix.add(line);
         }
@@ -31,7 +31,7 @@ public class Board
         for(int i = 0; i < height; i++){
             ArrayList<Tile> line = new ArrayList<>();
             for(int j = 0; j < width; j++){
-                line.add(new Tile.EmptyTile((i*this.width) +j));
+                line.add(new Tile.EmptyTile( intPlaceToTuplePos( i*this.width + j )) );
             }
             this.matrix.add(line);
         }
@@ -52,7 +52,6 @@ public class Board
                 }
             }
             System.out.print("|");
-
         }
         System.out.println();
     }
@@ -60,13 +59,13 @@ public class Board
     public void clearBoard(){
         for(int i = 0; i < height; i++){
             for(int j = 0; j < width; j++){
-                matrix.get(i).set(j, new Tile.EmptyTile((i*this.width) +j));
+                matrix.get(i).set(j, new Tile.EmptyTile(intPlaceToTuplePos( i*this.width + j )));
             }
         }
     }
 
     public void setTile(Tile tile) throws TilePlacementException {
-        List<Integer> position = intPlaceToTuplePos(tile.getPlace());
+        List<Integer> position = tile.getPosition();
         if(position.get(0) > width || position.get(0) < 0 || position.get(1) > height || position.get(1) < 0)
         {
             throw new TilePlacementException("Error in changeTile in a board : the new position isn't on the board");
@@ -74,23 +73,13 @@ public class Board
         matrix.get(position.get(1)).set(position.get(0), tile);
     }
 
-    public List<Integer> intPlaceToTuplePos(int place){
-        int x = (place) % width;
-        int y = (int) Math.floor((float) place/width);
-        return List.of(x, y);
-    }
-
-    public int tuplePosToIntPlace(@NotNull List<Integer> position){
-        return position.get(0) + (position.get(1) * width);
-    }
-
-    public Tile getTile(int place) throws TilePlacementException {
-        if(place < 0 || place>width*height-1)
+    public Tile getTile(List<Integer> position) throws TilePlacementException {
+        int x = position.get(0);
+        int y = position.get(1);
+        if(x < 0 || y < 0 || y > height-1 || x > width-1)
         {
             throw new TilePlacementException("Error in getTile in a board : the new position isn't on the board");
         }
-        int x = intPlaceToTuplePos(place).get(0);
-        int y = intPlaceToTuplePos(place).get(1);
         return matrix.get(x).get(y);
     }
 
@@ -106,6 +95,12 @@ public class Board
         TilePlacementException(String str){
             super(str);
         }
+    }
+
+    private List<Integer> intPlaceToTuplePos(int place){
+        int x = (place) % width;
+        int y = (int) Math.floor((float) place/width);
+        return List.of(x, y);
     }
 
 }

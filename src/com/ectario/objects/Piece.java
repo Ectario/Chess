@@ -33,11 +33,9 @@ public class  Piece {
 
     public void movePiece(List<Integer> currentPosition, List<Integer> targetedPosition){
         if(move.isPossible(currentPosition, targetedPosition)){
-            int currentPlace = board.tuplePosToIntPlace(currentPosition);
-            int targetedPlace = board.tuplePosToIntPlace(targetedPosition);
             // The old tile become an Empty Tile and the target become an Occupied Tile
-            Tile oldTile = new Tile.EmptyTile(currentPlace);
-            Tile targetedTile = new Tile.OccupiedTile(targetedPlace, this);
+            Tile oldTile = new Tile.EmptyTile(currentPosition);
+            Tile targetedTile = new Tile.OccupiedTile(targetedPosition, this);
             try {
                 board.setTile(oldTile);
                 board.setTile(targetedTile);
