@@ -1,7 +1,6 @@
 package com.ectario.objects;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,6 +66,34 @@ public class Move {
             }
         }
 
+        // If the piece Move has DIAGO then add the possiblePositions
+        if(flags.contains(MoveFlag.DIAGO)) {
+            List<Integer> direction = List.of(1, -1); // diagonale is like (x,x) (-x,-x) (-x,x) and (x,-x) where x is a variable
+
+            ArrayList<Integer> tmpPos;
+            for (int dirX : direction) {
+                for (int dirY : direction) {
+                    tmpPos = new ArrayList(currentPos);
+                    // Checking 1 direction until piece or border of board
+                    while (true) {
+                        tmpPos = new ArrayList(tmpPos); // Create the new tmpPos to avoid a pointer problem (until the next initialisation the pointer stay the same)
+                        tmpPos.set(1, tmpPos.get(1) + dirY);
+                        tmpPos.set(0, tmpPos.get(0) + dirX);
+                        try {
+                            Tile tmpTile = board.getTile(tmpPos);
+                            Piece pieceAlreadyThere = tmpTile.getPiece();
+                            if (pieceAlreadyThere == null && tmpTile.isEmpty()) {
+                                possiblePositions.add(tmpPos);
+                            } else {
+                                break; // Stopping this diagonal if a piece is already there
+                            }
+                        } catch (Board.TilePlacementException e) {
+                            break; // Stopping this diagonal if the tmpPos isn't on the board
+                        }
+                    }
+                }
+            }
+        }
 
     }
 
@@ -74,6 +101,7 @@ public class Move {
 
     public ArrayList<List<Integer>> getPossibleTargets(){
         return possiblePositions;
+
     }
 
     // Check if move from currentPos to a new position is possible
