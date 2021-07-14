@@ -120,7 +120,7 @@ public class Move {
         return List.of(pos.get(0) + pos2.get(0), pos.get(1) + pos2.get(1));
     }
 
-    // POINT : If the piece can move in precise tile (like the rook)
+    // POINT : If the piece can move in precise tile (like the knight)
     // LINE  : If the piece can move horizontally or vertically
     // DIAGO : If the piece can move in the diagonals
     public enum MoveFlag {
