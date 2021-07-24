@@ -12,8 +12,8 @@ public class Main {
     private static Board board = new Board();
 
     public static void main(String[] args) {
-        Piece testPiece = new Queen(Color.BLACK, board);
-        Tile tile = new Tile.OccupiedTile(List.of(5,5), testPiece);
+        Piece testPiece = new Rook(Color.BLACK, board);
+        Tile tile = new Tile.OccupiedTile(List.of(1,1), testPiece);
 
         try {
             board.setTile(tile);
@@ -39,8 +39,8 @@ public class Main {
 //        tile.getPiece().getMove().update(tile.getPosition());
 //        tile.getPiece().movePiece(tile.getPosition(), tile.getPiece().getMove().getPossibleTargets().get(Tools.randrange(0,
 //                tile.getPiece().getMove().getPossibleTargets().size())));
-//
-//        board.printBoard();
+
+        board.printBoard();
 
     }
 }

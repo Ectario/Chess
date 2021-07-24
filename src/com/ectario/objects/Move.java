@@ -19,6 +19,9 @@ public class Move {
         this.board = board;
         this.flags = flags;
         this.relativeTargetedPositions = relativeTargetedPositions;
+        if(!(flags.contains(MoveFlag.POINT)) && !(relativeTargetedPositions.isEmpty())){
+            System.err.println("WARNING : RelativePositions not empty without POINT flag. Move : "+ this.toString());
+        }
     }
 
     // Update the possible position of the move
@@ -115,12 +118,17 @@ public class Move {
         return false;
     }
 
+    @Override
+    public String toString(){
+        return "[FLAGS : " + this.flags.toString() + " | " + "relativePositions :" + this.relativeTargetedPositions
+                 + "]";
+    }
 
     private List<Integer> addPosition(List<Integer> pos, List<Integer> pos2) {
         return List.of(pos.get(0) + pos2.get(0), pos.get(1) + pos2.get(1));
     }
 
-    // POINT : If the piece can move in precise tile (like the knight)
+    // POINT : If the piece can move in precise tile (like the Knight)
     // LINE  : If the piece can move horizontally or vertically
     // DIAGO : If the piece can move in the diagonals
     public enum MoveFlag {
