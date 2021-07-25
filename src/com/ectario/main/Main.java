@@ -6,23 +6,26 @@ import com.ectario.objects.pieces.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 
 public class Main {
     private static Board board = new Board();
 
     public static void main(String[] args) {
-        Piece testPiece = new Rook(Color.BLACK, board);
-        Tile tile = new Tile.OccupiedTile(List.of(1,1), testPiece);
+        String initConfig = "WpB2 bbC5 WRc8";
+        board.setConfig(initConfig);
 
-        try {
-            board.setTile(tile);
-        } catch (Board.TilePlacementException e) {
-            e.printStackTrace();
-        }
+        board.printBoard();
 
-//        //Put WK where the testPiece can move
-//
+//        //Test to move one piece
+//        tile.getPiece().getMove().update(tile.getPosition());
+//        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+//        System.out.println("\nEnter move : ");
+//        String INPUT = myObj.nextLine();  // Read user input
+//        tile.getPiece().movePiece(tile.getPosition(), board.notationToPos(INPUT));
+
+//        //Put WK where a testPiece can move
 //        tile.getPiece().getMove().update(tile.getPosition());
 //        for(List<Integer> tmpPos : tile.getPiece().getMove().getPossibleTargets()){
 //            Piece tmpPiece = new King(Color.WHITE, board);
@@ -34,7 +37,7 @@ public class Main {
 //            }
 //        }
 //        board.printBoard();
-//
+
 //        // Play randomly
 //        tile.getPiece().getMove().update(tile.getPosition());
 //        tile.getPiece().movePiece(tile.getPosition(), tile.getPiece().getMove().getPossibleTargets().get(Tools.randrange(0,

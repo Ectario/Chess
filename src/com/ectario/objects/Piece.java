@@ -22,7 +22,7 @@ public class  Piece {
     }
 
     public String toStringAbbreviation(){
-        //Return the first letter of the name of the piece + First letter of the color
+        //Return the first letter of the color + the first letter of the name of the piece
         String namePiece;
         if(pieceType.name().equals("KNIGHT"))
         {
@@ -42,6 +42,8 @@ public class  Piece {
             } catch (Board.TilePlacementException e) {
                 e.printStackTrace();
             }
+        } else {
+            System.err.println("\nMove not authorized !\n");
         }
     }
 

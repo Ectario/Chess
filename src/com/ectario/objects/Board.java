@@ -1,6 +1,6 @@
 package com.ectario.objects;
 
-import com.sun.jdi.Value;
+import com.ectario.objects.pieces.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,8 +8,8 @@ import java.util.List;
 
 public class Board
 {
-    private int width = 0;
-    private int height = 0;
+    private int width;
+    private int height;
     private final ArrayList<ArrayList<Tile>> matrix = new ArrayList<>();
 
     public Board(){
@@ -94,8 +94,19 @@ public class Board
     // Manage configurations with a notation like WQB4 for White Queen in B4 to initialize a game
     public void setConfig(String configNotation){
         this.clearBoard();
-
+        String[] parts = configNotation.split(" ");
+        for(String part : parts){
+            try {
+                Piece piece = abbreviationToPieceObj(part.substring(0,2));
+                List<Integer> position = notationToPos(part.substring(2));
+                Tile tile = new Tile.OccupiedTile(position, piece);
+                setTile(tile);
+            } catch (AbbreviationPieceException | TilePlacementException e) {
+                e.printStackTrace();
+            }
+        }
     }
+
 
     public int getWidth(){
         return width;
@@ -105,10 +116,39 @@ public class Board
         return height;
     }
 
+    // Exception threw when we want put a tile on the board but the position doesn't exist on the board
     public static class TilePlacementException extends Exception {
         TilePlacementException(String str){
             super(str);
         }
+    }
+
+    private static class AbbreviationPieceException extends Exception {
+        AbbreviationPieceException(String str){
+            super(str);
+        }
+    }
+
+    // Convert an abbreviation string to a piece object. Example : "WK" to White King piece object
+    private Piece abbreviationToPieceObj(String abbr) throws AbbreviationPieceException {
+        Color color;
+        if(String.valueOf(abbr.charAt(0)).equalsIgnoreCase("W")){
+            color = Color.WHITE;
+        } else if (String.valueOf(abbr.charAt(0)).equalsIgnoreCase("B")){
+            color = Color.BLACK;
+        } else {
+            throw new AbbreviationPieceException("Abbreviation of the piece color doesn't exist : " + abbr.charAt(0));
+        }
+        char pieceLetter = abbr.charAt(1);
+        return switch (String.valueOf(pieceLetter).toUpperCase()) {
+            case "K" -> new King(color, this);
+            case "N" -> new Knight(color, this);
+            case "Q" -> new Queen(color, this);
+            case "P" -> new Pawn(color, this);
+            case "B" -> new Bishop(color, this);
+            case "R" -> new Rook(color, this);
+            default -> throw new AbbreviationPieceException("Abbreviation piece doesn't exist : " + pieceLetter);
+        };
     }
 
     private List<Integer> intPlaceToTuplePos(int place){
