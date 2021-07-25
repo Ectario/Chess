@@ -28,18 +28,26 @@ public class Main {
 //        String INPUT = myObj.nextLine();  // Read user input
 //        tile.getPiece().movePiece(tile.getPosition(), board.notationToPos(INPUT));
 
-//        //Put WK where a testPiece can move
-//        tile.getPiece().getMove().update(tile.getPosition());
-//        for(List<Integer> tmpPos : tile.getPiece().getMove().getPossibleTargets()){
-//            Piece tmpPiece = new King(Color.WHITE, board);
-//            Tile newTmpTile = new Tile.OccupiedTile(tmpPos, tmpPiece);
-//            try {
-//                board.setTile(newTmpTile);
-//            } catch (Board.TilePlacementException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        board.printBoard();
+        //Put .. where a testPiece can move
+        Tile tile = null;
+        try {
+
+            tile = board.getTile(board.notationToPos("b8"));
+
+        } catch (Board.TilePlacementException e) {
+            e.printStackTrace();
+        }
+        assert tile != null;
+        tile.getPiece().getMove().update(tile.getPosition());
+        for(List<Integer> tmpPos : tile.getPiece().getMove().getPossibleTargets()){
+            Piece tmpPiece = new XX_piece(board);
+            Tile newTmpTile = new Tile.OccupiedTile(tmpPos, tmpPiece);
+            try {
+                board.setTile(newTmpTile);
+            } catch (Board.TilePlacementException e) {
+                e.printStackTrace();
+            }
+        }
 
 //        // Play randomly
 //        tile.getPiece().getMove().update(tile.getPosition());

@@ -20,7 +20,7 @@ public class Move {
         this.flags = flags;
         this.relativeTargetedPositions = relativeTargetedPositions;
         if(!(flags.contains(MoveFlag.POINT)) && !(relativeTargetedPositions.isEmpty())){
-            System.err.println("WARNING : RelativePositions not empty without POINT flag. Move : "+ this.toString());
+            System.err.println("WARNING : RelativePositions not empty without POINT flag. Move : "+ this);
         }
     }
 
@@ -35,7 +35,12 @@ public class Move {
             for (List<Integer> pos : newTargetedPositions) {
                 if (!(pos.get(0) > board.getWidth() || pos.get(0) < 0 || pos.get(1) > board.getHeight() || pos.get(1) < 0)) //Check if Positions targeted is on the board
                 {
-                    possiblePositions.add(pos);
+                    // Check if the position is already took
+                    try {
+                        if(board.getTile(pos).getPiece() == null) {
+                            possiblePositions.add(pos);
+                        }
+                    } catch (Board.TilePlacementException ignored) {  }
                 }
             }
         }

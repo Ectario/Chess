@@ -6,7 +6,8 @@ public enum PieceType {
     ROOK(5),
     BISHOP(3),
     KNIGHT(3),
-    PAWN(1);
+    PAWN(1),
+    XX(-1);
 
     public final int value;
 

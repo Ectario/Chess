@@ -88,7 +88,7 @@ public class Board
         {
             throw new TilePlacementException("Error in getTile in a board : the new position isn't on the board");
         }
-        return matrix.get(x).get(y);
+        return matrix.get(y).get(x);
     }
 
     // Manage configurations with a notation like WQB4 for White Queen in B4 to initialize a game
