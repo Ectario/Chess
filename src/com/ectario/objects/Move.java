@@ -35,7 +35,7 @@ public class Move {
             for (List<Integer> pos : newTargetedPositions) {
                 if (!(pos.get(0) > board.getWidth() || pos.get(0) < 0 || pos.get(1) > board.getHeight() || pos.get(1) < 0)) //Check if Positions targeted is on the board
                 {
-                    // Check if the position is already took
+                    // Check if the position is already taken
                     try {
                         if(board.getTile(pos).getPiece() == null) {
                             possiblePositions.add(pos);

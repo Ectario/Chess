@@ -123,6 +123,7 @@ public class Board
         }
     }
 
+    // Exception threw when the input string notation is wrong. (Wrong color Abbreviation or Wrong piece abbreviation)
     private static class AbbreviationPieceException extends Exception {
         AbbreviationPieceException(String str){
             super(str);
@@ -132,6 +133,7 @@ public class Board
     // Convert an abbreviation string to a piece object. Example : "WK" to White King piece object
     private Piece abbreviationToPieceObj(String abbr) throws AbbreviationPieceException {
         Color color;
+        // Parse the color
         if(String.valueOf(abbr.charAt(0)).equalsIgnoreCase("W")){
             color = Color.WHITE;
         } else if (String.valueOf(abbr.charAt(0)).equalsIgnoreCase("B")){
@@ -140,6 +142,7 @@ public class Board
             throw new AbbreviationPieceException("Abbreviation of the piece color doesn't exist : " + abbr.charAt(0));
         }
         char pieceLetter = abbr.charAt(1);
+        // Parse the piece
         return switch (String.valueOf(pieceLetter).toUpperCase()) {
             case "K" -> new King(color, this);
             case "N" -> new Knight(color, this);
