@@ -13,7 +13,10 @@ public class Main {
     private static Board board = new Board();
 
     public static void main(String[] args) {
-        String initConfig = "WpB2 bbC5 WRc8";
+        String initConfig = "BRA8 BNB8 BBC8 BQD8 BKE8 BBF8 BNG8 BRH8" + " " +
+                            "BPA7 BPB7 BPC7 BPD7 BPE7 BPF7 BPG7 BPH7" + " " +
+                            "WPA2 WPB2 WPC2 WPD2 WPE2 WPF2 WPG2 WPH2" + " " +
+                            "WRA1 WNB1 WBC1 WQD1 WKE1 WBF1 WNG1 WRH1";
         board.setConfig(initConfig);
 
         board.printBoard();
