@@ -9,6 +9,6 @@ public class Queen extends Piece {
     public Queen(Color color, Board board) {
         super(PieceType.QUEEN, color, board);
         ArrayList<List<Integer>> movements = new ArrayList<>(); // The flag manage the line and diago movements each update
-        this.move = new Move(movements, board, List.of(Move.MoveFlag.DIAGO, Move.MoveFlag.LINE));
+        this.move = new Move(movements, board, List.of(Move.MoveFlag.DIAGO, Move.MoveFlag.LINE), this);
     }
 }

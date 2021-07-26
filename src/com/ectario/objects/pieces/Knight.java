@@ -23,6 +23,6 @@ public class Knight extends Piece {
             movements = this.whiteSideMovement(movements);
         }
 
-        this.move = new Move(movements, board, List.of(Move.MoveFlag.POINT));
+        this.move = new Move(movements, board, List.of(Move.MoveFlag.POINT), this);
     }
 }

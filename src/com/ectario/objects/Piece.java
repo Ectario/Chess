@@ -9,6 +9,7 @@ public class  Piece {
     protected PieceType pieceType;
     protected Move move;
     protected Board board;
+    private boolean hasMoved = false;
 
     public Piece(PieceType pieceType, Color color, Board board){
         this.color = color;
@@ -39,12 +40,17 @@ public class  Piece {
             try {
                 board.setTile(oldTile);
                 board.setTile(targetedTile);
+                hasMoved = true;
             } catch (Board.TilePlacementException e) {
                 e.printStackTrace();
             }
         } else {
             System.err.println("\nMove not authorized !\n");
         }
+    }
+
+    public boolean getHasMoved(){
+        return hasMoved;
     }
 
     public Move getMove() {

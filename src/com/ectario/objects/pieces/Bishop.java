@@ -10,6 +10,6 @@ public class Bishop extends Piece {
         super(PieceType.BISHOP, color, board);
 
         ArrayList<List<Integer>> movements = new ArrayList<>(); // The flag manage the diago movements each update
-        this.move = new Move(movements, board, List.of(Move.MoveFlag.DIAGO));
+        this.move = new Move(movements, board, List.of(Move.MoveFlag.DIAGO), this);
     }
 }

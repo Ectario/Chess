@@ -7,15 +7,17 @@ import java.util.stream.Collectors;
 //Class used to manage if a move is allowed.
 public class Move {
 
-    private ArrayList<List<Integer>> possiblePositions = new ArrayList();
+    private ArrayList<List<Integer>> possiblePositions = new ArrayList<>();
     private Board board;
     private List<List<Integer>> relativeTargetedPositions;
     private List<MoveFlag> flags;
+    private Piece ownerPiece;
 
     // relativeTargetedPositions is relative to the Piece,
     // example : The piece can move only in the right tile, then the only one targeted position is (1,0) -> 1 in x axe and 0 in y axe
     // If the flags doesn't contains POINT flag -> relativeTargetedPositions must be Empty initialize ArrayList
-    public Move(List<List<Integer>> relativeTargetedPositions, Board board, List<MoveFlag> flags) {
+    public Move(List<List<Integer>> relativeTargetedPositions, Board board, List<MoveFlag> flags, Piece ownerPiece) {
+        this.ownerPiece = ownerPiece;
         this.board = board;
         this.flags = flags;
         this.relativeTargetedPositions = relativeTargetedPositions;
@@ -26,10 +28,26 @@ public class Move {
 
     // Update the possible position of the move
     public void update(List<Integer> currentPos){
-        possiblePositions.clear();
+        possiblePositions.clear(); // Clear the previous possible pos'
 
         // If the piece Move has flag POINT then add the possiblePositions
         if(flags.contains(MoveFlag.POINT)) {
+
+            // PAWN FIRST MOVE MANAGEMENT
+            // If the piece is a Pawn AND the pawn hasn't moved, then he can move 1 or 2 forward
+            if(!ownerPiece.getHasMoved() && ownerPiece.pieceType == PieceType.PAWN) {
+
+                List<List<Integer>> newTarget = relativeTargetedPositions.stream().map(elt ->
+                        elt.stream().map(elt2 -> elt2*2) // Multiply by 2 the range
+                                .collect(Collectors.toList())).collect(Collectors.toList());
+
+                ArrayList<List<Integer>> newRelativeTarget = new ArrayList<>(relativeTargetedPositions); // Putting the previous possible move in new var
+                newRelativeTarget.addAll( newTarget ); // We add the new target (2 forward)
+
+                relativeTargetedPositions = new ArrayList<>(newRelativeTarget); // We change the previous var with the new one
+            }
+            //END PAWN MANAGEMENT
+
             // For each position in relativePosition we add the currentPos -> Can get the Absolut position of each targetedPositions
             List<List<Integer>> newTargetedPositions = relativeTargetedPositions.stream().map(elt -> addPosition(elt, currentPos)).collect(Collectors.toList());
             for (List<Integer> pos : newTargetedPositions) {
@@ -53,10 +71,10 @@ public class Move {
             ArrayList<Integer> tmpPos;
             for (int i = 0; i < 2; i++) { // For get(0) : X axe, and get(1) : Y axe
                 for (int dir : direction) {
-                    tmpPos = new ArrayList(currentPos);
+                    tmpPos = new ArrayList<>(currentPos);
                     // Checking 1 direction until piece or border of board
                     while (true) {
-                        tmpPos = new ArrayList(tmpPos); // Create the new tmpPos to avoid a pointer problem (until the next initialisation the pointer stay the same)
+                        tmpPos = new ArrayList<>(tmpPos); // Create the new tmpPos to avoid a pointer problem (until the next initialisation the pointer stay the same)
                         tmpPos.set(i, tmpPos.get(i) + dir);
                         try {
                             Tile tmpTile = board.getTile(tmpPos);
@@ -81,10 +99,10 @@ public class Move {
             ArrayList<Integer> tmpPos;
             for (int dirX : direction) {
                 for (int dirY : direction) {
-                    tmpPos = new ArrayList(currentPos);
+                    tmpPos = new ArrayList<>(currentPos);
                     // Checking 1 direction until piece or border of board
                     while (true) {
-                        tmpPos = new ArrayList(tmpPos); // Create the new tmpPos to avoid a pointer problem (until the next initialisation the pointer stay the same)
+                        tmpPos = new ArrayList<>(tmpPos); // Create the new tmpPos to avoid a pointer problem (until the next initialisation the pointer stay the same)
                         tmpPos.set(1, tmpPos.get(1) + dirY);
                         tmpPos.set(0, tmpPos.get(0) + dirX);
                         try {

@@ -10,7 +10,7 @@ public class Rook extends Piece {
         super(PieceType.ROOK, color, board);
 
         ArrayList<List<Integer>> movements = new ArrayList(); // The flag manage the line movements each update
-        this.move = new Move(movements, board, List.of(Move.MoveFlag.LINE));
+        this.move = new Move(movements, board, List.of(Move.MoveFlag.LINE), this);
     }
 
 }
